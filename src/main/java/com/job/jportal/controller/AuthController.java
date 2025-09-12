@@ -43,6 +43,11 @@ public class AuthController {
         return "admin-dashboard";
     }
 
+    @GetMapping("/dashboard")
+    public String userDashboard() {
+        return "user-dashboard";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";

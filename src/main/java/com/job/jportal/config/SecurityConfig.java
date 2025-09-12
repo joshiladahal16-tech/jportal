@@ -47,7 +47,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/register", "/styles.css", "/navbar.js", "/images/**").permitAll()
-                .requestMatchers("/jobs").authenticated()
+                .requestMatchers("/jobs", "/dashboard").authenticated()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
@@ -59,7 +59,7 @@ public class SecurityConfig {
                     if (role.equals("ROLE_ADMIN")) {
                         response.sendRedirect("/admin/dashboard");
                     } else {
-                        response.sendRedirect("/");
+                        response.sendRedirect("/dashboard");
                     }
                 })
                 .failureUrl("/login?error=Invalid+credentials")
