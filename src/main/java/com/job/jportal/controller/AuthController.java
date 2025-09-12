@@ -5,6 +5,7 @@ import com.job.jportal.model.Qualification;
 import com.job.jportal.model.Role;
 import com.job.jportal.model.User;
 import com.job.jportal.repository.UserRepository;
+import com.job.jportal.service.EmailService;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,10 +20,12 @@ public class AuthController {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @GetMapping("/")
@@ -73,7 +76,10 @@ public class AuthController {
 
         userRepository.save(user);
 
-        model.addAttribute("success", "Account created successfully. You can now log in.");
+        // Send welcome email
+        emailService.sendWelcomeEmail(user);
+
+        model.addAttribute("success", "Account created successfully. Welcome email sent! You can now log in.");
         model.addAttribute("userRegistrationDto", new RegistrationDto());
         return "register";
     }
