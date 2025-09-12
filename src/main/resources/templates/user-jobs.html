@@ -14,7 +14,7 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
     <style>
         body {
           font-family: "Inter", sans-serif;
@@ -330,26 +330,26 @@
 
 <main class="section">
     <div class="container">
-        <h1 th:text="#{jobs.browse.title}">Browse jobs</h1>
-        <p th:text="#{jobs.browse.description}">Search and filter by category, location, or qualification.</p>
+        <h1>Browse Jobs</h1>
+        <p>Search and filter by category, location, or qualification.</p>
 
         <div class="card">
             <form th:action="@{/jobs/search}" method="get">
                 <div class="row">
                     <div class="field">
-                        <label for="q" th:text="#{jobs.search.keyword}">Keyword</label>
+                        <label for="q">Keyword</label>
                         <input id="q" name="q" th:placeholder="#{jobs.search.keyword.placeholder}" th:value="${param.q}" />
                     </div>
                     <div class="field">
-                        <label for="loc" th:text="#{jobs.search.location}">Location</label>
+                        <label for="loc">Location</label>
                         <input id="loc" name="location" th:placeholder="#{jobs.search.location.placeholder}" th:value="${param.location}" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="field">
-                        <label for="cat" th:text="#{jobs.search.category}">Category</label>
+                        <label for="cat">Category</label>
                         <select id="cat" name="category">
-                            <option value="" th:text="#{jobs.search.category.all}">All</option>
+                            <option value="">All</option>
                             <option th:each="category : ${categories}"
                                     th:value="${category.id}"
                                     th:text="${category.name}"
@@ -357,9 +357,9 @@
                         </select>
                     </div>
                     <div class="field">
-                        <label for="qual" th:text="#{jobs.search.qualification}">Qualification</label>
+                        <label for="qual">Qualification</label>
                         <select id="qual" name="qualification">
-                            <option value="" th:text="#{jobs.search.qualification.any}">Any</option>
+                            <option value="">Any</option>
                             <option th:each="qualification : ${qualifications}"
                                     th:value="${qualification}"
                                     th:text="${qualification}"
@@ -369,25 +369,25 @@
                 </div>
                 <div class="form-actions">
                     <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i> <span th:text="#{jobs.search.button}">Search</span>
+                        <i class="fa-solid fa-magnifying-glass"></i> <span>Search</span>
                     </button>
-                    <a class="btn btn-outline" th:href="@{#hot}" th:text="#{jobs.hot}">Hot jobs</a>
+                    <a class="btn btn-outline" href="#hot">Hot jobs</a>
                 </div>
             </form>
         </div>
 
         <div class="tabs">
             <div class="tab-buttons">
-                <button class="tab-button active" onclick="showTab('all')" th:text="#{jobs.tabs.all}">
+                <button class="tab-button active" onclick="showTab('all')">
                     All
                 </button>
-                <button class="tab-button" onclick="showTab('design')" th:text="#{jobs.tabs.design}">
+                <button class="tab-button" onclick="showTab('design')">
                     Design
                 </button>
-                <button class="tab-button" onclick="showTab('development')" th:text="#{jobs.tabs.development}">
+                <button class="tab-button" onclick="showTab('development')">
                     Development
                 </button>
-                <button class="tab-button" onclick="showTab('marketing')" th:text="#{jobs.tabs.marketing}">
+                <button class="tab-button" onclick="showTab('marketing')">
                     Marketing
                 </button>
             </div>
@@ -400,14 +400,14 @@
                     </div>
                     <div class="job-title">
                         <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}" th:text="#{jobs.badge.hot}">Hot</span>
+                        <span class="badge" th:if="${job.featured}">Hot</span>
                     </div>
                     <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
                         Company · Location · Salary
                     </div>
                     <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}" th:text="#{jobs.action.details}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}" th:text="#{jobs.action.apply}">Apply</a>
+                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
                     </div>
                 </article>
             </div>
@@ -420,14 +420,14 @@
                     </div>
                     <div class="job-title">
                         <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}" th:text="#{jobs.badge.hot}">Hot</span>
+                        <span class="badge" th:if="${job.featured}">Hot</span>
                     </div>
                     <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
                         Company · Location · Salary
                     </div>
                     <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}" th:text="#{jobs.action.details}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}" th:text="#{jobs.action.apply}">Apply</a>
+                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
                     </div>
                 </article>
             </div>
@@ -440,14 +440,14 @@
                     </div>
                     <div class="job-title">
                         <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}" th:text="#{jobs.badge.hot}">Hot</span>
+                        <span class="badge" th:if="${job.featured}">Hot</span>
                     </div>
                     <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
                         Company · Location · Salary
                     </div>
                     <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}" th:text="#{jobs.action.details}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}" th:text="#{jobs.action.apply}">Apply</a>
+                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
                     </div>
                 </article>
             </div>
@@ -460,14 +460,14 @@
                     </div>
                     <div class="job-title">
                         <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}" th:text="#{jobs.badge.hot}">Hot</span>
+                        <span class="badge" th:if="${job.featured}">Hot</span>
                     </div>
                     <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
                         Company · Location · Salary
                     </div>
                     <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}" th:text="#{jobs.action.details}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}" th:text="#{jobs.action.apply}">Apply</a>
+                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
                     </div>
                 </article>
             </div>
@@ -479,37 +479,37 @@
     <div class="footer-container">
         <!-- Logo / About -->
         <div class="footer-section about">
-            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> <span th:text="#{footer.brand}">Hot Jobs</span></h2>
-            <p th:text="#{footer.description}">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> <span>Hot Jobs</span></h2>
+            <p>
                 Your trusted platform for high-intent job openings hand-picked daily.
             </p>
         </div>
 
         <!-- Quick Links -->
         <div class="footer-section links">
-            <h3 th:text="#{footer.quicklinks}">Quick Links</h3>
+            <h3>Quick Links</h3>
             <ul>
-                <li><a th:href="@{/}" th:text="#{nav.home}">Home</a></li>
-                <li><a th:href="@{/jobs}" th:text="#{nav.browse}">Browse Jobs</a></li>
-                <li><a th:href="@{/jobs/post}" th:text="#{nav.post}">Post a Job</a></li>
-                <li><a th:href="@{/contact}" th:text="#{nav.contact}">Contact</a></li>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/jobs/post}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
             </ul>
         </div>
 
         <!-- Resources -->
         <div class="footer-section resources">
-            <h3 th:text="#{footer.resources}">Resources</h3>
+            <h3>Resources</h3>
             <ul>
-                <li><a th:href="@{/blog}" th:text="#{footer.blog}">Blog</a></li>
-                <li><a th:href="@{/faq}" th:text="#{footer.faq}">FAQs</a></li>
-                <li><a th:href="@{/support}" th:text="#{footer.support}">Support</a></li>
-                <li><a th:href="@{/privacy}" th:text="#{footer.privacy}">Privacy Policy</a></li>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
             </ul>
         </div>
 
         <!-- Social -->
         <div class="footer-section social">
-            <h3 th:text="#{footer.follow}">Follow Us</h3>
+            <h3>Follow Us</h3>
             <div class="social-icons">
                 <a th:href="${socialLinks.facebook}"><i class="fa-brands fa-facebook"></i></a>
                 <a th:href="${socialLinks.twitter}"><i class="fa-brands fa-twitter"></i></a>
@@ -520,7 +520,7 @@
     </div>
 
     <div class="footer-bottom">
-        <p th:text="#{footer.copyright(${#dates.year(#dates.createNow())})}">© 2025 Hot Jobs. All Rights Reserved.</p>
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
     </div>
 </footer>
 
