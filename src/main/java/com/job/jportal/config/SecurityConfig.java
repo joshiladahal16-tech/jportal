@@ -48,12 +48,20 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/register", "/styles.css", "/navbar.js", "/images/**").permitAll()
                 .requestMatchers("/jobs").authenticated()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(login -> login
                 .loginPage("/login")
                 .loginProcessingUrl("/login")
-                .defaultSuccessUrl("/", true)
+                .successHandler((request, response, authentication) -> {
+                    String role = authentication.getAuthorities().iterator().next().getAuthority();
+                    if (role.equals("ROLE_ADMIN")) {
+                        response.sendRedirect("/admin/dashboard");
+                    } else {
+                        response.sendRedirect("/");
+                    }
+                })
                 .failureUrl("/login?error=Invalid+credentials")
                 .permitAll()
             )

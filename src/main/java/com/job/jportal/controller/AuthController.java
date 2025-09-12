@@ -38,6 +38,11 @@ public class AuthController {
         return "user-jobs";
     }
 
+    @GetMapping("/admin/dashboard")
+    public String adminDashboard() {
+        return "admin-dashboard";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
