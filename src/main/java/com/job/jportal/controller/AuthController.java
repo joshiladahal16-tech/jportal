@@ -30,6 +30,11 @@ public class AuthController {
         return "index";
     }
 
+    @GetMapping("/jobs")
+    public String jobs() {
+        return "user-jobs";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
