@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard · Job Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
+    <script>
+        // Check if user is logged in (can be replaced with server-side authentication)
+        function checkLoginStatus() {
+          // This would typically be handled server-side with Spring Security
+          // For now, keeping the client-side check for compatibility
+          const isLoggedIn = sessionStorage.getItem("isLoggedIn") === "true";
+          if (!isLoggedIn) {
+            // Redirect to login page if not logged in
+            window.location.href = "/login";
+          }
+        }
+
+        // Check login status when page loads
+        window.onload = checkLoginStatus;
+    </script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}"
+        ><i class="fa-solid fa-briefcase"></i> Job Portal</a
+        >
+        <nav class="nav-links">
+            <!-- Navbar will be populated by JavaScript -->
+        </nav>
+    </div>
+</header>
+
+<main class="section">
+    <div class="container">
+        <h1 style="margin: 0 0 0.6rem">Your dashboard</h1>
+        <p class="muted" style="margin: 0 0 1rem">
+            Overview of your profile and recent activity.
+        </p>
+
+        <div class="grid grid-3">
+            <!-- Profile Completeness Card -->
+            <div class="card">
+                <div class="badge">Profile completeness</div>
+                <div style="font-size: 1.8rem; font-weight: 800; margin: 0.4rem 0"
+                     th:text="${user != null && user.profileCompleteness != null ? user.profileCompleteness + '%' : '80%'}">
+                    80%
+                </div>
+                <a class="btn btn-outline" th:href="@{/profile}"
+                >Complete profile</a
+                >
+            </div>
+
+            <!-- Recently Applied Card -->
+            <div class="card">
+                <div class="badge">Recently applied</div>
+                <div th:if="${recentApplications != null and !#lists.isEmpty(recentApplications)}">
+                    <ul style="margin: 0.4rem 0 0; padding-left: 1rem; color: #475569">
+                        <li th:each="application, iterStat : ${recentApplications}"
+                            th:if="${iterStat.index < 2}"
+                            th:text="${application.jobTitle + ' · ' + application.companyName}">
+                            UX Designer · Sphere UI
+                        </li>
+                    </ul>
+                </div>
+                <div th:unless="${recentApplications != null and !#lists.isEmpty(recentApplications)}">
+                    <ul style="margin: 0.4rem 0 0; padding-left: 1rem; color: #475569">
+                        <li>UX Designer · Sphere UI</li>
+                        <li>Frontend Engineer · NovaCloud</li>
+                    </ul>
+                </div>
+                <a
+                        class="btn btn-outline"
+                        th:href="@{/applications}"
+                        style="margin-top: 0.6rem"
+                >View all</a
+                >
+            </div>
+
+            <!-- Notifications Card -->
+            <div class="card">
+                <div class="badge">Notifications</div>
+                <p class="muted" style="margin: 0.4rem 0 0"
+                   th:text="${notifications != null ? notifications.size() + ' updates on your applications.' : '2 updates on your applications.'}">
+                    2 updates on your applications.
+                </p>
+            </div>
+        </div>
+
+        <!-- Recommended Jobs Section -->
+        <div class="card" style="margin-top: 1.2rem">
+            <div
+                    style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 0.6rem;
+            "
+            >
+                <h2 style="margin: 0">Recommended jobs</h2>
+                <a class="btn btn-outline" th:href="@{/jobs}">See more</a>
+            </div>
+
+            <!-- Dynamic Recommended Jobs Table -->
+            <div th:if="${recommendedJobs != null and !#lists.isEmpty(recommendedJobs)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="job : ${recommendedJobs}">
+                        <td th:text="${job.title}">Product Designer</td>
+                        <td th:text="${job.company}">Sphere UI</td>
+                        <td th:text="${job.location}">Remote</td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/jobs/{id}(id=${job.id})}"
+                            >View</a
+                            >
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Static Fallback Table -->
+            <div th:unless="${recommendedJobs != null and !#lists.isEmpty(recommendedJobs)}">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Company</th>
+                        <th>Location</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>Product Designer</td>
+                        <td>Sphere UI</td>
+                        <td>Remote</td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/jobs/1}"
+                            >View</a
+                            >
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Frontend Engineer</td>
+                        <td>NovaCloud</td>
+                        <td>Bengaluru</td>
+                        <td>
+                            <a class="btn btn-primary" th:href="@{/jobs/2}"
+                            >View</a
+                            >
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
+            <p>
+                Your trusted platform for high-intent job openings hand-picked
+                daily.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<!-- Footer CSS -->
+<style>
+    .footer {
+      background: #1a1a1a;
+      color: #eee;
+      padding: 2rem 1.5rem 1rem;
+      margin-top: 2rem;
+      font-family: Arial, sans-serif;
+    }
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .footer-section h3,
+    .footer-logo {
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+    .footer-logo {
+      font-size: 20px;
+      font-weight: bold;
+      color: #8b5cf6; /* purple accent */
+    }
+    .footer-section ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-section ul li {
+      margin: 0.5rem 0;
+    }
+    .footer-section ul li a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-section ul li a:hover {
+      color: #8b5cf6;
+    }
+    .footer .social-icons a {
+      color: #ccc;
+      margin-right: 10px;
+      font-size: 18px;
+      transition: color 0.2s ease;
+    }
+    .footer .social-icons a:hover {
+      color: #8b5cf6;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid #333;
+      font-top: 1px solid #333;
+      font-size: 14px;
+      color: #aaa;
+    }
+</style>
+</body>
+</html>
