@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login · Job Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}"
+        ><i class="fa-solid fa-briefcase"></i> Job Portal</a
+        >
+        <nav class="nav-links">
+            <!-- Navbar will be populated by JavaScript -->
+        </nav>
+    </div>
+</header>
+
+<main class="section">
+    <div class="container" style="max-width: 760px">
+        <div class="card">
+            <h1 style="margin: 0 0 0.6rem">Welcome back</h1>
+            <p class="muted" style="margin: 0 0 1rem">
+                Log in to apply for jobs and manage your applications.
+            </p>
+
+            <!-- Display error messages -->
+            <div th:if="${param.error}" class="alert alert-danger" style="margin-bottom: 1rem; padding: 0.75rem; background-color: #fee; border: 1px solid #fcc; border-radius: 6px; color: #c33;">
+                <i class="fa-solid fa-exclamation-triangle"></i>
+                <span th:text="${param.error}">Invalid username or password.</span>
+            </div>
+
+            <!-- Display logout success message -->
+            <div th:if="${param.logout}" class="alert alert-success" style="margin-bottom: 1rem; padding: 0.75rem; background-color: #efe; border: 1px solid #cfc; border-radius: 6px; color: #363;">
+                <i class="fa-solid fa-check-circle"></i>
+                You have been logged out successfully.
+            </div>
+
+            <!-- Spring Security Login Form -->
+            <form th:action="@{/login}" method="post" id="loginForm">
+                <!-- CSRF Token (automatically handled by Thymeleaf with Spring Security) -->
+
+                <div class="row">
+                    <div class="field">
+                        <label for="username">Email</label>
+                        <input
+                                type="email"
+                                id="username"
+                                name="username"
+                                placeholder="you@example.com"
+                                th:value="${param.username}"
+                                required
+                        />
+                    </div>
+                    <div class="field">
+                        <label for="role">Login as</label>
+                        <select id="role" name="role">
+                            <option value="USER" th:selected="${param.role == 'USER'}">Job Seeker</option>
+                            <option value="EMPLOYER" th:selected="${param.role == 'EMPLOYER'}">Employer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="field" style="grid-column: 1/-1">
+                        <label for="password">Password</label>
+                        <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter password"
+                                required
+                        />
+                    </div>
+                </div>
+
+                <!-- Remember Me Option -->
+                <div class="field" style="margin-top: 0.5rem;">
+                    <label style="display: flex; align-items: center; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" name="remember-me" style="margin-right: 0.5rem;" />
+                        Remember me
+                    </label>
+                </div>
+
+                <div class="form-actions" style="margin-top: 0.6rem">
+                    <button class="btn btn-primary" type="submit" id="loginBtn">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Log In
+                    </button>
+                    <a class="btn btn-outline" th:href="@{/register}"
+                    >Create an account</a
+                    >
+                </div>
+
+                <!-- Additional Links -->
+                <div style="margin-top: 1rem; text-align: center;">
+                    <a th:href="@{/forgot-password}" style="color: #6366f1; text-decoration: none; font-size: 14px;">
+                        Forgot your password?
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
+            <p>
+                Your trusted platform for high-intent job openings hand-picked
+                daily.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<!-- Footer CSS -->
+<style>
+    .footer {
+        background: #1a1a1a;
+        color: #eee;
+        padding: 2rem 1.5rem 1rem;
+        margin-top: 2rem;
+        font-family: Arial, sans-serif;
+    }
+    .footer-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 2rem;
+        max-width: 1100px;
+        margin: auto;
+    }
+    .footer-section h3,
+    .footer-logo {
+        margin-bottom: 1rem;
+        color: #fff;
+    }
+    .footer-logo {
+        font-size: 20px;
+        font-weight: bold;
+        color: #8b5cf6; /* purple accent */
+    }
+    .footer-section ul {
+        list-style: none;
+        padding: 0;
+    }
+    .footer-section ul li {
+        margin: 0.5rem 0;
+    }
+    .footer-section ul li a {
+        color: #ccc;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .footer-section ul li a:hover {
+        color: #8b5cf6;
+    }
+    .footer .social-icons a {
+        color: #ccc;
+        margin-right: 10px;
+        font-size: 18px;
+        transition: color 0.2s ease;
+    }
+    .footer .social-icons a:hover {
+        color: #8b5cf6;
+    }
+    .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid #333;
+        font-size: 14px;
+        color: #aaa;
+    }
+
+    /* Alert styles */
+    .alert {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .alert-danger {
+        background-color: #fef2f2;
+        border-color: #fecaca;
+        color: #dc2626;
+    }
+    .alert-success {
+        background-color: #f0fdf4;
+        border-color: #bbf7d0;
+        color: #16a34a;
+    }
+</style>
+
+<script>
+    // Enhanced form handling with loading state
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        const submitButton = document.getElementById('loginBtn');
+        const originalText = submitButton.innerHTML;
+
+        // Show loading state
+        submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Logging in...';
+        submitButton.disabled = true;
+
+        // Re-enable button after 5 seconds in case of network issues
+        setTimeout(() => {
+            submitButton.innerHTML = originalText;
+            submitButton.disabled = false;
+        }, 5000);
+    });
+
+    // Auto-hide alerts after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.5s ease';
+                setTimeout(() => alert.remove(), 500);
+            }, 5000);
+        });
+    });
+</script>
+</body>
+</html>
