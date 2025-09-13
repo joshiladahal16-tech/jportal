@@ -48,7 +48,7 @@ public class AuthController {
             if (role.equals("ROLE_ADMIN")) {
                 return "redirect:/admin/dashboard";
             } else if (role.equals("ROLE_EMPLOYER")) {
-                return "redirect:/dashboard";
+                return "redirect:/employer/dashboard";
             }
         }
         return "user-dashboard";

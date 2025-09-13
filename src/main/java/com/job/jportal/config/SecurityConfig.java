@@ -26,7 +26,7 @@ public class SecurityConfig {
                                 "/styles.css", "/navbar.js",   // ✅ root static files
                                 "/css/**", "/js/**", "/images/**", "/webjars/**"
                         ).permitAll()
-                        .requestMatchers("/jobs", "/dashboard", "/user/dashboard", "/user/**").authenticated()
+                        .requestMatchers("/jobs", "/user/dashboard", "/user/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/employer/**").hasRole("EMPLOYER")
                         .anyRequest().authenticated()

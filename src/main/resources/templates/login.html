@@ -54,7 +54,7 @@
                 <!-- CSRF Token (automatically handled by Thymeleaf with Spring Security) -->
 
                 <div class="row">
-                    <div class="field">
+                    <div class="field" style="grid-column: 1/-1">
                         <label for="username">Email</label>
                         <input
                                 type="email"
@@ -64,13 +64,6 @@
                                 th:value="${param.username}"
                                 required
                         />
-                    </div>
-                    <div class="field">
-                        <label for="role">Login as</label>
-                        <select id="role" name="role">
-                            <option value="USER" th:selected="${param.role == 'USER'}">Job Seeker</option>
-                            <option value="EMPLOYER" th:selected="${param.role == 'EMPLOYER'}">Employer</option>
-                        </select>
                     </div>
                 </div>
                 <div class="row">

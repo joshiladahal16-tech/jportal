@@ -37,14 +37,14 @@ public class EmployerController {
 
         model.addAttribute("jobs", employerJobs);
         model.addAttribute("jobCount", employerJobs.size());
-        return "employer/dashboard";
+        return "employer-dashboard";
     }
 
     // Show job posting form
     @GetMapping("/post-job")
     public String showPostJobForm(Model model) {
         model.addAttribute("jobDTO", new JobDTO());
-        return "employer/post-job";
+        return "employee-jobpost";
     }
 
     // Handle job submission
@@ -55,7 +55,7 @@ public class EmployerController {
                           Authentication authentication) {
 
         if (result.hasErrors()) {
-            return "employer/post-job";
+            return "employee-jobpost";
         }
 
         try {
@@ -77,10 +77,10 @@ public class EmployerController {
             jobService.save(job);
 
             redirectAttributes.addFlashAttribute("successMessage", "Job posted successfully!");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error posting job. Please try again.");
-            return "redirect:/employer/post-job";
+            return "redirect:/employee-jobpost";
         }
     }
 
@@ -90,7 +90,7 @@ public class EmployerController {
         String currentEmployer = authentication.getName();
         List<job> employerJobs = jobService.findByEmployerUsername(currentEmployer);
         model.addAttribute("jobs", employerJobs);
-        return "employer/manage-jobs";
+        return "employee-jobmanage";
     }
 
     // Show edit job form
@@ -103,7 +103,7 @@ public class EmployerController {
 
         if (job == null || !job.getEmployerUsername().equals(authentication.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unauthorized access or job not found.");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         }
 
         JobDTO jobDTO = new JobDTO();
@@ -116,7 +116,7 @@ public class EmployerController {
 
         model.addAttribute("jobDTO", jobDTO);
         model.addAttribute("jobId", id);
-        return "employer/edit-job";
+        return "employee-jobpost";
     }
 
     // Handle job update
@@ -130,13 +130,13 @@ public class EmployerController {
 
         if (result.hasErrors()) {
             model.addAttribute("jobId", id);
-            return "employer/edit-job";
+            return "employee-jobpost";
         }
 
         job existingJob = jobService.findById(id).orElse(null); // ✅ unwrap Optional
         if (existingJob == null || !existingJob.getEmployerUsername().equals(authentication.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unauthorized access or job not found.");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         }
 
         existingJob.setTitle(SanitizationUtil.sanitizePlain(jobDTO.getTitle()));
@@ -150,7 +150,7 @@ public class EmployerController {
         jobService.save(existingJob);
 
         redirectAttributes.addFlashAttribute("successMessage", "Job updated successfully!");
-        return "redirect:/employer/manage-jobs";
+        return "redirect:/employee-jobmanage";
     }
 
     // Toggle job status
@@ -162,7 +162,7 @@ public class EmployerController {
 
         if (job == null || !job.getEmployerUsername().equals(authentication.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unauthorized access or job not found.");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         }
 
         job.setActive(!job.isActive());
@@ -172,7 +172,7 @@ public class EmployerController {
         String status = job.isActive() ? "activated" : "deactivated";
         redirectAttributes.addFlashAttribute("successMessage", "Job " + status + " successfully!");
 
-        return "redirect:/employer/manage-jobs";
+        return "redirect:/employee-jobmanage";
     }
 
     // Delete job
@@ -184,12 +184,12 @@ public class EmployerController {
 
         if (job == null || !job.getEmployerUsername().equals(authentication.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unauthorized access or job not found.");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         }
 
         jobService.deleteById(id); // ✅ use deleteById
         redirectAttributes.addFlashAttribute("successMessage", "Job deleted successfully!");
-        return "redirect:/employer/manage-jobs";
+        return "redirect:/employee-jobmanage";
     }
 
     // Job details
@@ -202,11 +202,11 @@ public class EmployerController {
 
         if (job == null || !job.getEmployerUsername().equals(authentication.getName())) {
             redirectAttributes.addFlashAttribute("errorMessage", "Unauthorized access or job not found.");
-            return "redirect:/employer/manage-jobs";
+            return "redirect:/employee-jobmanage";
         }
 
         model.addAttribute("job", job);
-        return "employer/job-details";
+        return "employee-jobmanage";
     }
 
     // Fallback exception handler

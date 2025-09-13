@@ -16,7 +16,7 @@ function updateNavbar() {
     if (userRole === "Employer") {
       // Employer navigation
       navLinks.innerHTML = `
-        <a href="/dashboard">Dashboard</a>
+        <a href="/employer/dashboard">Dashboard</a>
         <a href="/employer/post-job">Post Job</a>
         <a href="/employer/manage-jobs">Manage Jobs</a>
         <a href="/employer/applicants">Applicants</a>
