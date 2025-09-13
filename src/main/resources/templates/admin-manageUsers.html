@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Users · Job Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <style>
+        .footer {
+            background: #1a1a1a;
+            color: #eee;
+            padding: 2rem 1.5rem 1rem;
+            margin-top: 2rem;
+            font-family: Arial, sans-serif;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .footer-section h3,
+        .footer-logo {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .footer-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin: 0.5rem 0;
+        }
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-section ul li a:hover {
+            color: #8b5cf6;
+        }
+        .footer .social-icons a {
+            color: #ccc;
+            margin-right: 10px;
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+        .footer .social-icons a:hover {
+            color: #8b5cf6;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        /* Additional styles for admin functionality */
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filters input,
+        .search-filters select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .user-actions .btn {
+            font-size: 0.8rem;
+            padding: 0.3rem 0.6rem;
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+            border: 1px solid #dc2626;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+            border-color: #b91c1c;
+        }
+
+        .status-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .status-inactive {
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+
+        .status-banned {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}"
+        ><i class="fa-solid fa-briefcase"></i> Job Portal</a
+        >
+        <nav class="nav-links">
+            <a th:href="@{/admin/dashboard}">Dashboard</a>
+            <a th:href="@{/admin/employers}">Manage Employers</a>
+            <a th:href="@{/admin/jobs}">Manage Jobs</a>
+            <a th:href="@{/admin/users}" class="active">Manage Users</a>
+        </nav>
+    </div>
+</header>
+
+<main class="section">
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+                <h1 style="margin: 0 0 0.6rem">Manage users</h1>
+                <p class="muted" style="margin: 0">
+                    Add, update, or remove job seekers.
+                </p>
+            </div>
+            <a class="btn btn-primary" th:href="@{/admin/users/add}">
+                <i class="fa-solid fa-plus"></i> Add New User
+            </a>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="card" style="margin-bottom: 1rem;">
+            <form th:action="@{/admin/users}" method="get">
+                <div class="search-filters">
+                    <input type="text" name="search" th:value="${param.search}"
+                           placeholder="Search by name or email..." style="flex: 1; min-width: 250px;">
+                    <select name="status" th:value="${param.status}">
+                        <option value="">All Status</option>
+                        <option value="active" th:selected="${param.status == 'active'}">Active</option>
+                        <option value="inactive" th:selected="${param.status == 'inactive'}">Inactive</option>
+                        <option value="banned" th:selected="${param.status == 'banned'}">Banned</option>
+                    </select>
+                    <select name="sortBy" th:value="${param.sortBy}">
+                        <option value="name" th:selected="${param.sortBy == 'name'}">Sort by Name</option>
+                        <option value="email" th:selected="${param.sortBy == 'email'}">Sort by Email</option>
+                        <option value="joinDate" th:selected="${param.sortBy == 'joinDate'}">Sort by Join Date</option>
+                    </select>
+                    <button type="submit" class="btn btn-outline">
+                        <i class="fa-solid fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <!-- Results summary -->
+            <div th:if="${users != null}" style="margin-bottom: 1rem; color: #6b7280; font-size: 0.9rem;">
+                Showing <span th:text="${#lists.size(users)}">0</span> users
+                <span th:if="${param.search != null and param.search != ''}" th:text="'for \"' + ${param.search} + '\"'"></span>
+            </div>
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Joined</th>
+                    <th>Applications</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Dynamic users data -->
+                <div th:if="${users != null and #lists.size(users) > 0}" th:remove="tag">
+                    <tr th:each="user : ${users}">
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <img th:if="${user.profilePicture != null}"
+                                     th:src="${user.profilePicture}"
+                                     th:alt="${user.name}"
+                                     style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                                <div th:unless="${user.profilePicture != null}"
+                                     style="width: 32px; height: 32px; border-radius: 50%; background: #8b5cf6;
+                                            display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                    <span th:text="${#strings.substring(user.name, 0, 1)}">U</span>
+                                </div>
+                                <span th:text="${user.name}">User Name</span>
+                            </div>
+                        </td>
+                        <td th:text="${user.email}">user@example.com</td>
+                        <td>
+                            <span class="status-badge"
+                                  th:text="${user.status}"
+                                  th:classappend="${user.status == 'active' ? ' status-active' :
+                                                   user.status == 'inactive' ? ' status-inactive' :
+                                                   user.status == 'banned' ? ' status-banned' : ''}">Active</span>
+                        </td>
+                        <td th:text="${#temporals.format(user.joinDate, 'MMM yyyy')}">Jan 2025</td>
+                        <td>
+                            <span th:text="${user.applicationCount ?: 0}">0</span> applications
+                        </td>
+                        <td>
+                            <div class="user-actions">
+                                <a class="btn btn-outline" th:href="@{/admin/users/{id}/view(id=${user.id})}" title="View Details">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a class="btn btn-outline" th:href="@{/admin/users/{id}/edit(id=${user.id})}" title="Edit">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                <button class="btn btn-danger"
+                                        th:onclick="'confirmDelete(' + ${user.id} + ', \'' + ${user.name} + '\')'"
+                                        title="Delete User">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button th:if="${user.status != 'banned'}"
+                                        class="btn btn-outline"
+                                        th:onclick="'confirmBan(' + ${user.id} + ', \'' + ${user.name} + '\')'"
+                                        title="Ban User">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                                <button th:if="${user.status == 'banned'}"
+                                        class="btn btn-outline"
+                                        th:onclick="'confirmUnban(' + ${user.id} + ', \'' + ${user.name} + '\')'"
+                                        title="Unban User">
+                                    <i class="fa-solid fa-check"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+
+                <!-- Static fallback data -->
+                <div th:unless="${users != null and #lists.size(users) > 0}" th:remove="tag">
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #8b5cf6;
+                                           display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                    J
+                                </div>
+                                John Doe
+                            </div>
+                        </td>
+                        <td>john@example.com</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>Jan 2025</td>
+                        <td>5 applications</td>
+                        <td>
+                            <div class="user-actions">
+                                <a class="btn btn-outline" href="#" title="View Details">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a class="btn btn-outline" href="#" title="Edit">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                <button class="btn btn-danger" title="Delete User">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button class="btn btn-outline" title="Ban User">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <div style="width: 32px; height: 32px; border-radius: 50%; background: #8b5cf6;
+                                           display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                                    E
+                                </div>
+                                Erica Deshar
+                            </div>
+                        </td>
+                        <td>erica@example.com</td>
+                        <td><span class="status-badge status-inactive">Inactive</span></td>
+                        <td>Mar 2025</td>
+                        <td>2 applications</td>
+                        <td>
+                            <div class="user-actions">
+                                <a class="btn btn-outline" href="#" title="View Details">
+                                    <i class="fa-solid fa-eye"></i>
+                                </a>
+                                <a class="btn btn-outline" href="#" title="Edit">
+                                    <i class="fa-solid fa-edit"></i>
+                                </a>
+                                <button class="btn btn-danger" title="Delete User">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button class="btn btn-outline" title="Ban User">
+                                    <i class="fa-solid fa-ban"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+
+                <!-- Empty state -->
+                <tr th:if="${users != null and #lists.size(users) == 0}">
+                    <td colspan="6" style="text-align: center; color: #6b7280; padding: 2rem;">
+                        <i class="fa-solid fa-users" style="font-size: 2rem; margin-bottom: 1rem; color: #d1d5db;"></i>
+                        <div>No users found</div>
+                        <div style="font-size: 0.9rem; margin-top: 0.5rem;">
+                            Try adjusting your search criteria or
+                            <a th:href="@{/admin/users/add}" class="btn btn-outline" style="margin-left: 0.5rem;">
+                                add a new user
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div th:if="${totalPages != null and totalPages > 1}"
+                 style="display: flex; justify-content: center; margin-top: 1.5rem; gap: 0.5rem;">
+                <a th:if="${currentPage > 0}"
+                   th:href="@{/admin/users(page=${currentPage - 1}, search=${param.search}, status=${param.status}, sortBy=${param.sortBy})}"
+                   class="btn btn-outline">
+                    <i class="fa-solid fa-chevron-left"></i> Previous
+                </a>
+
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                      th:if="${i >= currentPage - 2 and i <= currentPage + 2}">
+                    <a th:if="${i != currentPage}"
+                       th:href="@{/admin/users(page=${i}, search=${param.search}, status=${param.status}, sortBy=${param.sortBy})}"
+                       class="btn btn-outline" th:text="${i + 1}">1</a>
+                    <span th:if="${i == currentPage}"
+                          class="btn btn-primary" th:text="${i + 1}">1</span>
+                </span>
+
+                <a th:if="${currentPage < totalPages - 1}"
+                   th:href="@{/admin/users(page=${currentPage + 1}, search=${param.search}, status=${param.status}, sortBy=${param.sortBy})}"
+                   class="btn btn-outline">
+                    Next <i class="fa-solid fa-chevron-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
+            <p>
+                Your trusted platform for high-intent job openings hand-picked
+                daily.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+
+<script>
+    function confirmDelete(userId, userName) {
+        if (confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+            // Create form and submit
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/users/${userId}/delete`;
+
+            // Add CSRF token if available
+            const csrfToken = document.querySelector('meta[name="_csrf"]');
+            if (csrfToken) {
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_csrf';
+                csrfInput.value = csrfToken.getAttribute('content');
+                form.appendChild(csrfInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function confirmBan(userId, userName) {
+        if (confirm(`Are you sure you want to ban user "${userName}"?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/users/${userId}/ban`;
+
+            // Add CSRF token if available
+            const csrfToken = document.querySelector('meta[name="_csrf"]');
+            if (csrfToken) {
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_csrf';
+                csrfInput.value = csrfToken.getAttribute('content');
+                form.appendChild(csrfInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+
+    function confirmUnban(userId, userName) {
+        if (confirm(`Are you sure you want to unban user "${userName}"?`)) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/admin/users/${userId}/unban`;
+
+            // Add CSRF token if available
+            const csrfToken = document.querySelector('meta[name="_csrf"]');
+            if (csrfToken) {
+                const csrfInput = document.createElement('input');
+                csrfInput.type = 'hidden';
+                csrfInput.name = '_csrf';
+                csrfInput.value = csrfToken.getAttribute('content');
+                form.appendChild(csrfInput);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
+</body>
+</html>

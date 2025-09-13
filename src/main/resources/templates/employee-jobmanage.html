@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Jobs · Job Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
+</head>
+<body>
+<!-- Header -->
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}">
+            <i class="fa-solid fa-briefcase"></i> Job Portal
+        </a>
+        <nav class="nav-links">
+            <!-- Navbar populated dynamically -->
+        </nav>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="section">
+    <div class="container">
+        <h1 style="margin: 0 0 0.6rem">Manage jobs</h1>
+        <p class="muted" style="margin: 0 0 1rem">
+            View, edit, and delete job postings.
+        </p>
+        <div class="card">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Applicants</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Loop through job list -->
+                <tr th:each="job : ${jobs}">
+                    <td th:text="${job.title}">Frontend Engineer</td>
+                    <td>
+                  <span
+                          class="status-dot"
+                          th:classappend="${job.status == 'Open'} ? ' status-open' :
+                                    ${job.status == 'Paused'} ? ' status-paused' : ''"
+                  ></span>
+                        <span th:text="${job.status}">Open</span>
+                    </td>
+                    <td th:text="${job.applicantCount}">23</td>
+                    <td>
+                        <a class="btn btn-outline" th:href="@{/jobs/edit/{id}(id=${job.id})}">Edit</a>
+                        <a class="btn btn-outline"
+                           th:href="@{/jobs/toggle-status/{id}(id=${job.id})}"
+                           th:text="${job.status == 'Open'} ? 'Pause' : 'Open'">
+                            Pause
+                        </a>
+                        <a class="btn btn-outline"
+                           th:href="@{/jobs/delete/{id}(id=${job.id})}"
+                           onclick="return confirm('Are you sure you want to delete this job?');">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo">
+                <i class="fa-solid fa-fire"></i> Hot Jobs
+            </h2>
+            <p>
+                Your trusted platform for high-intent job openings hand-picked daily.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/jobs/post}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faqs}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy-policy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post a Job · Job Portal</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- ✅ Correct Thymeleaf static references -->
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}">
+            <i class="fa-solid fa-briefcase"></i> Job Portal
+        </a>
+        <nav class="nav-links">
+            <!-- Navbar will be populated by JavaScript -->
+        </nav>
+    </div>
+</header>
+
+<main class="section">
+    <div class="container" style="max-width: 1000px">
+        <h1 style="margin: 0 0 0.6rem">Post a new job</h1>
+        <p class="muted" style="margin: 0 0 1rem">
+            Fill out the form to add a vacancy.
+        </p>
+        <div class="card">
+            <!-- ✅ Bind to backend model -->
+            <form th:action="@{/employer/post-job}" th:object="${job}" method="post">
+                <div class="row">
+                    <div class="field">
+                        <label for="title">Job title</label>
+                        <input id="title" th:field="*{title}" placeholder="e.g., Frontend Engineer" required />
+                    </div>
+                    <div class="field">
+                        <label for="type">Type</label>
+                        <select id="type" th:field="*{type}">
+                            <option value="FULLTIME">Full-time</option>
+                            <option value="CONTRACT">Contract</option>
+                            <option value="INTERNSHIP">Internship</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label for="location">Location</label>
+                        <input id="location" th:field="*{location}" placeholder="e.g., Remote, Bengaluru" required />
+                    </div>
+                    <div class="field">
+                        <label for="category">Category</label>
+                        <select id="category" th:field="*{category}">
+                            <option value="DESIGN">Design</option>
+                            <option value="DEVELOPMENT">Development</option>
+                            <option value="MARKETING">Marketing</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field" style="grid-column: 1/-1">
+                        <label for="desc">Description</label>
+                        <textarea id="desc" th:field="*{description}" placeholder="Role summary, responsibilities, requirements"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <label for="salary">Salary range</label>
+                        <input id="salary" th:field="*{salary}" placeholder="e.g., ₹20L – ₹28L" />
+                    </div>
+                    <div class="field">
+                        <label for="openings">Openings</label>
+                        <input id="openings" type="number" min="1" th:field="*{openings}" />
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 0.6rem">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa-solid fa-plus"></i> Publish
+                    </button>
+                    <a class="btn btn-outline" th:href="@{/employer/dashboard}">
+                        Save draft
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
+            <p>Your trusted platform for high-intent job openings hand-picked daily.</p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
