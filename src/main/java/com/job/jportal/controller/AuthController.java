@@ -41,8 +41,28 @@ public class AuthController {
     public String jobs() { return "user-jobs"; }
 
     @GetMapping("/user/dashboard")
-    public String userDashboard() { return "user-dashboard"; }
+    public String userDashboard(org.springframework.security.core.Authentication auth) {
+        // If user is admin or employer, redirect them to their proper dashboard
+        if (auth != null && auth.getAuthorities() != null) {
+            String role = auth.getAuthorities().iterator().next().getAuthority();
+            if (role.equals("ROLE_ADMIN")) {
+                return "redirect:/admin/dashboard";
+            } else if (role.equals("ROLE_EMPLOYER")) {
+                return "redirect:/dashboard";
+            }
+        }
+        return "user-dashboard";
+    }
 
     @GetMapping("/admin/dashboard")
     public String adminDashboard() { return "admin-dashboard"; }
+
+    @GetMapping("/test-auth")
+    public String testAuth(org.springframework.security.core.Authentication auth) {
+        if (auth != null && auth.isAuthenticated()) {
+            return "User authenticated: " + auth.getName() + " with roles: " + auth.getAuthorities();
+        } else {
+            return "User not authenticated";
+        }
+    }
 }
