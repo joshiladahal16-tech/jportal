@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employer Dashboard · Job Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
+    <style>
+        .footer {
+            background: #1a1a1a;
+            color: #eee;
+            padding: 2rem 1.5rem 1rem;
+            margin-top: 2rem;
+            font-family: Arial, sans-serif;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .footer-section h3,
+        .footer-logo {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .footer-logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #8b5cf6;
+        }
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+        .footer-section ul li {
+            margin: 0.5rem 0;
+        }
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .footer-section ul li a:hover {
+            color: #8b5cf6;
+        }
+        .footer .social-icons a {
+            color: #ccc;
+            margin-right: 10px;
+            font-size: 18px;
+            transition: color 0.2s ease;
+        }
+        .footer .social-icons a:hover {
+            color: #8b5cf6;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container nav">
+        <a class="brand" th:href="@{/}"
+        ><i class="fa-solid fa-briefcase"></i> Job Portal</a
+        >
+        <nav class="nav-links">
+            <!-- Navbar will be populated by JavaScript -->
+        </nav>
+    </div>
+</header>
+
+<main class="section">
+    <div class="container">
+        <h1 style="margin: 0 0 0.6rem">Employer dashboard</h1>
+        <p class="muted" style="margin: 0 0 1rem">
+            Overview of posted jobs and notifications.
+        </p>
+
+        <div class="grid grid-3">
+            <div class="card stat">
+                <div>
+                    <div class="muted">Active jobs</div>
+                    <div class="value" th:text="${dashboardStats != null ? dashboardStats.activeJobs : '4'}">4</div>
+                </div>
+                <i class="fa-solid fa-briefcase" style="color: #10b981"></i>
+            </div>
+            <div class="card stat">
+                <div>
+                    <div class="muted">New applicants</div>
+                    <div class="value" th:text="${dashboardStats != null ? dashboardStats.newApplicants : '12'}">12</div>
+                </div>
+                <i class="fa-solid fa-users" style="color: #06b6d4"></i>
+            </div>
+            <div class="card stat">
+                <div>
+                    <div class="muted">Interviews</div>
+                    <div class="value" th:text="${dashboardStats != null ? dashboardStats.interviews : '3'}">3</div>
+                </div>
+                <i class="fa-solid fa-calendar-check" style="color: #f59e0b"></i>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 1.1rem">
+            <div
+                    style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+            >
+                <h2 style="margin: 0">Recent applicants</h2>
+                <a class="btn btn-outline" th:href="@{/employer/applicants}"
+                >View all</a
+                >
+            </div>
+            <table class="table" style="margin-top: 0.6rem">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Dynamic applicants data -->
+                <div th:if="${recentApplicants != null and #lists.size(recentApplicants) > 0}" th:remove="tag">
+                    <tr th:each="applicant : ${recentApplicants}">
+                        <td th:text="${applicant.name}">Applicant Name</td>
+                        <td th:text="${applicant.jobTitle}">Job Title</td>
+                        <td th:text="${#temporals.format(applicant.applicationDate, 'dd MMM')}">Date</td>
+                        <td>
+                            <span class="badge"
+                                  th:text="${applicant.status}"
+                                  th:classappend="${applicant.status == 'New' ? '' :
+                                                   applicant.status == 'Screening' ? ' badge-warning' :
+                                                   applicant.status == 'Interview' ? ' badge-info' :
+                                                   applicant.status == 'Hired' ? ' badge-success' :
+                                                   ' badge-secondary'}">Status</span>
+                        </td>
+                    </tr>
+                </div>
+
+                <!-- Static fallback data -->
+                <div th:unless="${recentApplicants != null and #lists.size(recentApplicants) > 0}" th:remove="tag">
+                    <tr>
+                        <td>John Doe</td>
+                        <td>UX Designer</td>
+                        <td>12 Aug</td>
+                        <td><span class="badge">New</span></td>
+                    </tr>
+                    <tr>
+                        <td>Erica Deshar</td>
+                        <td>Frontend Engineer</td>
+                        <td>12 Aug</td>
+                        <td><span class="badge badge-warning">Screening</span></td>
+                    </tr>
+                </div>
+
+                <!-- Empty state -->
+                <tr th:if="${recentApplicants != null and #lists.size(recentApplicants) == 0}">
+                    <td colspan="4" style="text-align: center; color: #6b7280; padding: 2rem;">
+                        No recent applicants found
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Additional sections for employer dashboard -->
+        <div th:if="${employerJobs != null and #lists.size(employerJobs) > 0}" class="card" style="margin-top: 1.5rem">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+                <h2 style="margin: 0">Your Posted Jobs</h2>
+                <a class="btn btn-primary" th:href="@{/employer/post-job}">
+                    <i class="fa-solid fa-plus"></i> Post New Job
+                </a>
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+                <div th:each="job : ${employerJobs}" class="card" style="margin: 0; border: 1px solid #e5e7eb;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <div>
+                            <h3 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;" th:text="${job.title}">Job Title</h3>
+                            <div class="muted" style="font-size: 0.9rem;" th:text="${job.location + ' · ' + job.salary}">Location · Salary</div>
+                        </div>
+                        <span class="badge"
+                              th:text="${job.status}"
+                              th:classappend="${job.status == 'Active' ? ' badge-success' :
+                                               job.status == 'Draft' ? ' badge-secondary' :
+                                               job.status == 'Closed' ? ' badge-danger' : ''}">Status</span>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; font-size: 0.85rem; color: #6b7280; margin-bottom: 1rem;">
+                        <span><i class="fa-solid fa-users"></i> <span th:text="${job.applicantCount ?: 0}">0</span> applicants</span>
+                        <span><i class="fa-solid fa-eye"></i> <span th:text="${job.viewCount ?: 0}">0</span> views</span>
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem;">
+                        <a class="btn btn-outline" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;"
+                           th:href="@{/employer/jobs/{id}/edit(id=${job.id})}">Edit</a>
+                        <a class="btn btn-outline" style="font-size: 0.85rem; padding: 0.4rem 0.8rem;"
+                           th:href="@{/employer/jobs/{id}/applicants(id=${job.id})}">View Applicants</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-container">
+        <!-- Logo / About -->
+        <div class="footer-section about">
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
+            <p>
+                Your trusted platform for high-intent job openings hand-picked
+                daily.
+            </p>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="footer-section links">
+            <h3>Quick Links</h3>
+            <ul>
+                <li><a th:href="@{/}">Home</a></li>
+                <li><a th:href="@{/jobs}">Browse Jobs</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Resources -->
+        <div class="footer-section resources">
+            <h3>Resources</h3>
+            <ul>
+                <li><a th:href="@{/blog}">Blog</a></li>
+                <li><a th:href="@{/faq}">FAQs</a></li>
+                <li><a th:href="@{/support}">Support</a></li>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+            </ul>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-section social">
+            <h3>Follow Us</h3>
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 Hot Jobs. All Rights Reserved.</p>
+    </div>
+</footer>
+</body>
+</html>

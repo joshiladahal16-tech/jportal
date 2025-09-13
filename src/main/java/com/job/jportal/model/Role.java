@@ -1,9 +1,7 @@
 package com.job.jportal.model;
 
 public enum Role {
-    USER,
+    ADMIN,
     EMPLOYER,
-    ADMIN
+    JOBSEEKER
 }
-
-

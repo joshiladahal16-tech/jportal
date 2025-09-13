@@ -15,306 +15,306 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/styles.css}" />
+    <script th:src="@{/navbar.js}"></script>
     <style>
         body {
-          font-family: "Inter", sans-serif;
-          margin: 0;
-          background: #f9fafb;
-          color: #222;
+            font-family: "Inter", sans-serif;
+            margin: 0;
+            background: #f9fafb;
+            color: #222;
         }
 
         /* Button Styles */
         .btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.75rem 1.5rem;
-          border-radius: 8px;
-          text-decoration: none;
-          font-weight: 500;
-          border: none;
-          cursor: pointer;
-          transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .btn-primary {
-          color: #fff;
-          background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
-          box-shadow: 0 10px 20px rgba(91, 124, 250, 0.25);
+            color: #fff;
+            background: linear-gradient(135deg, var(--brand-1), var(--brand-2));
+            box-shadow: 0 10px 20px rgba(91, 124, 250, 0.25);
         }
 
         .btn-primary:hover {
-          background: #7c3aed;
+            background: #7c3aed;
         }
 
         .btn-outline {
-          background: transparent;
-          color: #6b7280;
-          border: 1px solid #d1d5db;
+            background: transparent;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
         }
 
         .btn-outline:hover {
-          background: #f9fafb;
-          border-color: #8b5cf6;
-          color: #8b5cf6;
+            background: #f9fafb;
+            border-color: #8b5cf6;
+            color: #8b5cf6;
         }
 
         .section {
-          padding: 2rem 0;
+            padding: 2rem 0;
         }
 
         .section h1 {
-          font-size: 2rem;
-          margin-bottom: 1rem;
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
         .section p {
-          font-size: 1rem;
-          margin-bottom: 2rem;
-          line-height: 1.6;
-          color: #555;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            color: #555;
         }
 
         .card {
-          background: #fff;
-          padding: 2rem;
-          border-radius: 12px;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-          margin-bottom: 2.5rem;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2.5rem;
         }
 
         .row {
-          display: flex;
-          gap: 1.5rem;
-          flex-wrap: wrap;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
         }
 
         .field {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.5rem;
         }
 
         .field label {
-          font-weight: 600;
-          margin-bottom: 0.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
         .field input,
         .field select {
-          padding: 0.8rem 1rem;
-          font-size: 1rem;
-          border-radius: 8px;
-          border: 1px solid #ddd;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
         }
 
         .form-actions {
-          margin-top: 1.5rem;
-          display: flex;
-          gap: 1rem;
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
         }
 
         /* Tab Styles */
         .tabs {
-          margin-top: 2.5rem;
-          display: flex;
-          flex-direction: column;
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
         }
 
         .tab-buttons {
-          display: flex;
-          gap: 0.5rem;
-          margin-bottom: 2rem;
-          border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .tab-button {
-          padding: 0.75rem 1.5rem;
-          border: none;
-          background: none;
-          color: #6b7280;
-          font-weight: 500;
-          cursor: pointer;
-          border-bottom: 2px solid transparent;
-          transition: all 0.2s ease;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: none;
+            color: #6b7280;
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
         }
 
         .tab-button.active {
-          color: #8b5cf6;
-          border-bottom-color: #8b5cf6;
+            color: #8b5cf6;
+            border-bottom-color: #8b5cf6;
         }
 
         .tab-button:hover {
-          color: #8b5cf6;
+            color: #8b5cf6;
         }
 
         .grid-3 {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
 
         /* Job Card Styles */
         .job-card {
-          background: #fff;
-          padding: 2rem;
-          border-radius: 16px;
-          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .job-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
         }
 
         .job-card .logo {
-          font-size: 2.5rem;
-          margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .job-title {
-          font-size: 1.25rem;
-          font-weight: 700;
-          margin-bottom: 0.5rem;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .job-meta {
-          font-size: 0.95rem;
-          color: #666;
-          line-height: 1.5;
-          margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
         }
 
         .job-actions {
-          display: flex;
-          gap: 0.8rem;
-          margin-top: auto;
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
         }
 
         .badge {
-          display: inline-block;
-          font-size: 0.75rem;
-          padding: 0.25rem 0.6rem;
-          border-radius: 12px;
-          background: #ef4444;
-          color: #fff;
-          font-weight: 600;
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            background: #ef4444;
+            color: #fff;
+            font-weight: 600;
         }
 
         /* Footer */
         .footer {
-          background: #1a1a1a;
-          color: #eee;
-          padding: 2rem 1.5rem 1rem;
-          margin-top: 2rem;
+            background: #1a1a1a;
+            color: #eee;
+            padding: 2rem 1.5rem 1rem;
+            margin-top: 2rem;
         }
 
         .footer-container {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 2rem;
-          max-width: 1100px;
-          margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1100px;
+            margin: auto;
         }
 
         .footer-section h3,
         .footer-logo {
-          margin-bottom: 1rem;
-          color: #fff;
+            margin-bottom: 1rem;
+            color: #fff;
         }
 
         .footer-logo {
-          font-size: 20px;
-          font-weight: bold;
-          color: #8b5cf6;
+            font-size: 20px;
+            font-weight: bold;
+            color: #8b5cf6;
         }
 
         .footer-section ul {
-          list-style: none;
-          padding: 0;
+            list-style: none;
+            padding: 0;
         }
 
         .footer-section ul li {
-          margin: 0.5rem 0;
+            margin: 0.5rem 0;
         }
 
         .footer-section ul li a {
-          color: #ccc;
-          text-decoration: none;
-          transition: color 0.2s ease;
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.2s ease;
         }
 
         .footer-section ul li a:hover {
-          color: #8b5cf6;
+            color: #8b5cf6;
         }
 
         .footer .social-icons a {
-          color: #ccc;
-          margin-right: 10px;
-          font-size: 18px;
-          transition: color 0.2s ease;
+            color: #ccc;
+            margin-right: 10px;
+            font-size: 18px;
+            transition: color 0.2s ease;
         }
 
         .footer .social-icons a:hover {
-          color: #8b5cf6;
+            color: #8b5cf6;
         }
 
         .footer-bottom {
-          text-align: center;
-          margin-top: 2rem;
-          padding-top: 1rem;
-          border-top: 1px solid #333;
-          font-size: 14px;
-          color: #aaa;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            font-size: 14px;
+            color: #aaa;
         }
 
         /* Hide/show content based on active tab */
         .tab-content {
-          display: none;
+            display: none;
         }
 
         .tab-content.active {
-          display: flex;
-          align-items: center;
+            display: flex;
+            align-items: center;
         }
 
         @media (max-width: 768px) {
-          .row {
-            flex-direction: column;
-          }
+            .row {
+                flex-direction: column;
+            }
 
-          .form-actions {
-            flex-direction: column;
-          }
+            .form-actions {
+                flex-direction: column;
+            }
 
-          .nav {
-            flex-direction: column;
-            gap: 1rem;
-            padding: 0 1rem;
-          }
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
 
-          .nav-links {
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
-          }
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.5rem;
+            }
 
-          .tab-content.active {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
+            .tab-content.active {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
-    <script th:src="@{/js/navbar.js}"></script>
 </head>
 <body>
 <header class="site-header">
@@ -330,19 +330,19 @@
 
 <main class="section">
     <div class="container">
-        <h1>Browse Jobs</h1>
+        <h1>Browse jobs</h1>
         <p>Search and filter by category, location, or qualification.</p>
 
         <div class="card">
-            <form th:action="@{/jobs/search}" method="get">
+            <form th:action="@{/jobs}" method="get">
                 <div class="row">
                     <div class="field">
                         <label for="q">Keyword</label>
-                        <input id="q" name="q" th:placeholder="#{jobs.search.keyword.placeholder}" th:value="${param.q}" />
+                        <input id="q" name="q" th:value="${param.q}" placeholder="e.g., designer, React" />
                     </div>
                     <div class="field">
                         <label for="loc">Location</label>
-                        <input id="loc" name="location" th:placeholder="#{jobs.search.location.placeholder}" th:value="${param.location}" />
+                        <input id="loc" name="location" th:value="${param.location}" placeholder="e.g., Pokhara, Kathmandu" />
                     </div>
                 </div>
                 <div class="row">
@@ -350,28 +350,25 @@
                         <label for="cat">Category</label>
                         <select id="cat" name="category">
                             <option value="">All</option>
-                            <option th:each="category : ${categories}"
-                                    th:value="${category.id}"
-                                    th:text="${category.name}"
-                                    th:selected="${category.id == param.category}">Category</option>
+                            <option value="Design" th:selected="${param.category == 'Design'}">Design</option>
+                            <option value="Development" th:selected="${param.category == 'Development'}">Development</option>
+                            <option value="Marketing" th:selected="${param.category == 'Marketing'}">Marketing</option>
                         </select>
                     </div>
                     <div class="field">
                         <label for="qual">Qualification</label>
                         <select id="qual" name="qualification">
                             <option value="">Any</option>
-                            <option th:each="qualification : ${qualifications}"
-                                    th:value="${qualification}"
-                                    th:text="${qualification}"
-                                    th:selected="${qualification == param.qualification}">Qualification</option>
+                            <option value="Graduate" th:selected="${param.qualification == 'Graduate'}">Graduate</option>
+                            <option value="Postgraduate" th:selected="${param.qualification == 'Postgraduate'}">Postgraduate</option>
                         </select>
                     </div>
                 </div>
                 <div class="form-actions">
                     <button class="btn btn-primary" type="submit">
-                        <i class="fa-solid fa-magnifying-glass"></i> <span>Search</span>
+                        <i class="fa-solid fa-magnifying-glass"></i> Search
                     </button>
-                    <a class="btn btn-outline" href="#hot">Hot jobs</a>
+                    <a class="btn btn-outline" th:href="@{/jobs(category='hot')}">Hot jobs</a>
                 </div>
             </form>
         </div>
@@ -394,82 +391,233 @@
 
             <!-- All Jobs Tab -->
             <div id="tab-all" class="tab-content grid-3 active">
-                <article class="job-card" th:each="job : ${jobs}" th:id="${job.featured ? 'hot' : ''}">
-                    <div class="logo">
-                        <i th:class="${job.categoryIcon}" th:style="'color: ' + ${job.categoryColor}"></i>
-                    </div>
-                    <div class="job-title">
-                        <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}">Hot</span>
-                    </div>
-                    <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
-                        Company · Location · Salary
-                    </div>
-                    <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
-                    </div>
-                </article>
+                <!-- Dynamic job cards when jobs data is available -->
+                <div th:if="${allJobs != null and #lists.size(allJobs) > 0}" th:each="job : ${allJobs}">
+                    <article class="job-card" th:id="${job.isHot ? 'hot' : ''}">
+                        <div class="logo">
+                            <img th:if="${job.companyLogo != null}"
+                                 th:alt="${job.title}"
+                                 th:src="${job.companyLogo}"
+                                 width="42"
+                                 height="42"
+                                 style="
+                                   width: 42px;
+                                   height: 42px;
+                                   border-radius: 10px;
+                                   object-fit: cover;
+                                 "
+                            />
+                            <i th:unless="${job.companyLogo != null}"
+                               th:class="${'fa-solid ' + (job.category == 'Design' ? 'fa-pen-ruler' :
+                                          job.category == 'Development' ? 'fa-code' : 'fa-bullhorn')}"
+                               th:style="${'color: ' + (job.category == 'Design' ? '#8b5cf6' :
+                                          job.category == 'Development' ? '#0ea5e9' : '#f59e0b')}"></i>
+                        </div>
+                        <div class="job-title">
+                            <span th:text="${job.title}">Job Title</span>
+                            <span th:if="${job.isHot}" class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salary}">
+                            Company · Location · Salary
+                        </div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Static fallback when no dynamic data -->
+                <div th:unless="${allJobs != null and #lists.size(allJobs) > 0}">
+                    <article class="job-card" id="hot">
+                        <div class="logo">
+                            <i class="fa-solid fa-pen-ruler" style="color: #8b5cf6"></i>
+                        </div>
+                        <div class="job-title">
+                            Senior Product Designer <span class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta">
+                            Sphere UI · Kathmandu · Rs. 120k – $150k
+                        </div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/1}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+
+                    <article class="job-card">
+                        <div class="logo">
+                            <i class="fa-solid fa-code" style="color: #0ea5e9"></i>
+                        </div>
+                        <div class="job-title">Full-Stack Engineer</div>
+                        <div class="job-meta">NovaCloud · Pokhara · Rs. 28L – ₹35L</div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/2}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+
+                    <article class="job-card">
+                        <div class="logo">
+                            <i class="fa-solid fa-bullhorn" style="color: #f59e0b"></i>
+                        </div>
+                        <div class="job-title">Growth Marketer</div>
+                        <div class="job-meta">BrightLabs · Lumbini · Rs. 18L – ₹24L</div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/3}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
             </div>
 
             <!-- Design Jobs Tab -->
             <div id="tab-design" class="tab-content grid-3">
-                <article class="job-card" th:each="job : ${designJobs}">
-                    <div class="logo">
-                        <i th:class="${job.categoryIcon}" th:style="'color: ' + ${job.categoryColor}"></i>
-                    </div>
-                    <div class="job-title">
-                        <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}">Hot</span>
-                    </div>
-                    <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
-                        Company · Location · Salary
-                    </div>
-                    <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
-                    </div>
-                </article>
+                <div th:if="${designJobs != null and #lists.size(designJobs) > 0}" th:each="job : ${designJobs}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <img th:if="${job.companyLogo != null}"
+                                 th:alt="${job.title}"
+                                 th:src="${job.companyLogo}"
+                                 width="42"
+                                 height="42"
+                                 style="
+                                   width: 42px;
+                                   height: 42px;
+                                   border-radius: 10px;
+                                   object-fit: cover;
+                                 "
+                            />
+                            <i th:unless="${job.companyLogo != null}" class="fa-solid fa-pen-ruler" style="color: #8b5cf6"></i>
+                        </div>
+                        <div class="job-title">
+                            <span th:text="${job.title}">Job Title</span>
+                            <span th:if="${job.isHot}" class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salary}">
+                            Company · Location · Salary
+                        </div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Static fallback -->
+                <div th:unless="${designJobs != null and #lists.size(designJobs) > 0}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <i class="fa-solid fa-pen-ruler" style="color: #8b5cf6"></i>
+                        </div>
+                        <div class="job-title">
+                            Senior Product Designer <span class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta">Sphere UI · Remote · Rs. 120k – $150k</div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/1}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
             </div>
 
             <!-- Development Jobs Tab -->
             <div id="tab-development" class="tab-content grid-3">
-                <article class="job-card" th:each="job : ${developmentJobs}">
-                    <div class="logo">
-                        <i th:class="${job.categoryIcon}" th:style="'color: ' + ${job.categoryColor}"></i>
-                    </div>
-                    <div class="job-title">
-                        <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}">Hot</span>
-                    </div>
-                    <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
-                        Company · Location · Salary
-                    </div>
-                    <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
-                    </div>
-                </article>
+                <div th:if="${developmentJobs != null and #lists.size(developmentJobs) > 0}" th:each="job : ${developmentJobs}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <img th:if="${job.companyLogo != null}"
+                                 th:alt="${job.title}"
+                                 th:src="${job.companyLogo}"
+                                 width="42"
+                                 height="42"
+                                 style="
+                                   width: 42px;
+                                   height: 42px;
+                                   border-radius: 10px;
+                                   object-fit: cover;
+                                 "
+                            />
+                            <i th:unless="${job.companyLogo != null}" class="fa-solid fa-code" style="color: #0ea5e9"></i>
+                        </div>
+                        <div class="job-title">
+                            <span th:text="${job.title}">Job Title</span>
+                            <span th:if="${job.isHot}" class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salary}">
+                            Company · Location · Salary
+                        </div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Static fallback -->
+                <div th:unless="${developmentJobs != null and #lists.size(developmentJobs) > 0}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <i class="fa-solid fa-code" style="color: #0ea5e9"></i>
+                        </div>
+                        <div class="job-title">Full-Stack Engineer</div>
+                        <div class="job-meta">NovaCloud · Pokhara · Rs. 28L – ₹35L</div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/2}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
             </div>
 
             <!-- Marketing Jobs Tab -->
             <div id="tab-marketing" class="tab-content grid-3">
-                <article class="job-card" th:each="job : ${marketingJobs}">
-                    <div class="logo">
-                        <i th:class="${job.categoryIcon}" th:style="'color: ' + ${job.categoryColor}"></i>
-                    </div>
-                    <div class="job-title">
-                        <span th:text="${job.title}">Job Title</span>
-                        <span class="badge" th:if="${job.featured}">Hot</span>
-                    </div>
-                    <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salaryRange}">
-                        Company · Location · Salary
-                    </div>
-                    <div class="job-actions">
-                        <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
-                        <a class="btn btn-primary" th:href="@{/jobs/{id}/apply(id=${job.id})}">Apply</a>
-                    </div>
-                </article>
+                <div th:if="${marketingJobs != null and #lists.size(marketingJobs) > 0}" th:each="job : ${marketingJobs}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <img th:if="${job.companyLogo != null}"
+                                 th:alt="${job.title}"
+                                 th:src="${job.companyLogo}"
+                                 width="42"
+                                 height="42"
+                                 style="
+                                   width: 42px;
+                                   height: 42px;
+                                   border-radius: 10px;
+                                   object-fit: cover;
+                                 "
+                            />
+                            <i th:unless="${job.companyLogo != null}" class="fa-solid fa-bullhorn" style="color: #f59e0b"></i>
+                        </div>
+                        <div class="job-title">
+                            <span th:text="${job.title}">Job Title</span>
+                            <span th:if="${job.isHot}" class="badge">Hot</span>
+                        </div>
+                        <div class="job-meta" th:text="${job.company + ' · ' + job.location + ' · ' + job.salary}">
+                            Company · Location · Salary
+                        </div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/{id}(id=${job.id})}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Static fallback -->
+                <div th:unless="${marketingJobs != null and #lists.size(marketingJobs) > 0}">
+                    <article class="job-card">
+                        <div class="logo">
+                            <i class="fa-solid fa-bullhorn" style="color: #f59e0b"></i>
+                        </div>
+                        <div class="job-title">Growth Marketer</div>
+                        <div class="job-meta">BrightLabs · Lumbini · Rs. 18L – ₹24L</div>
+                        <div class="job-actions">
+                            <a class="btn btn-outline" th:href="@{/jobs/3}">Details</a>
+                            <a class="btn btn-primary" th:href="@{/login}">Apply</a>
+                        </div>
+                    </article>
+                </div>
             </div>
         </div>
     </div>
@@ -479,9 +627,10 @@
     <div class="footer-container">
         <!-- Logo / About -->
         <div class="footer-section about">
-            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> <span>Hot Jobs</span></h2>
+            <h2 class="footer-logo"><i class="fa-solid fa-fire"></i> Hot Jobs</h2>
             <p>
-                Your trusted platform for high-intent job openings hand-picked daily.
+                Your trusted platform for high-intent job openings hand-picked
+                daily.
             </p>
         </div>
 
@@ -491,7 +640,7 @@
             <ul>
                 <li><a th:href="@{/}">Home</a></li>
                 <li><a th:href="@{/jobs}">Browse Jobs</a></li>
-                <li><a th:href="@{/jobs/post}">Post a Job</a></li>
+                <li><a th:href="@{/employer/post-job}">Post a Job</a></li>
                 <li><a th:href="@{/contact}">Contact</a></li>
             </ul>
         </div>
@@ -511,10 +660,10 @@
         <div class="footer-section social">
             <h3>Follow Us</h3>
             <div class="social-icons">
-                <a th:href="${socialLinks.facebook}"><i class="fa-brands fa-facebook"></i></a>
-                <a th:href="${socialLinks.twitter}"><i class="fa-brands fa-twitter"></i></a>
-                <a th:href="${socialLinks.linkedin}"><i class="fa-brands fa-linkedin"></i></a>
-                <a th:href="${socialLinks.instagram}"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
     </div>
@@ -526,29 +675,29 @@
 
 <script>
     function showTab(tabName) {
-      // Hide all tab contents
-      const tabContents = document.querySelectorAll(".tab-content");
-      tabContents.forEach((content) => {
-        content.classList.remove("active");
-      });
+        // Hide all tab contents
+        const tabContents = document.querySelectorAll(".tab-content");
+        tabContents.forEach((content) => {
+            content.classList.remove("active");
+        });
 
-      // Remove active class from all tab buttons
-      const tabButtons = document.querySelectorAll(".tab-button");
-      tabButtons.forEach((button) => {
-        button.classList.remove("active");
-      });
+        // Remove active class from all tab buttons
+        const tabButtons = document.querySelectorAll(".tab-button");
+        tabButtons.forEach((button) => {
+            button.classList.remove("active");
+        });
 
-      // Show the selected tab content
-      document.getElementById(`tab-${tabName}`).classList.add("active");
+        // Show the selected tab content
+        document.getElementById(`tab-${tabName}`).classList.add("active");
 
-      // Add active class to the clicked button
-      event.target.classList.add("active");
+        // Add active class to the clicked button
+        event.target.classList.add("active");
     }
 
     // Function to check login status and redirect accordingly
     function checkAndRedirect(targetPage) {
-      // Redirect to login page
-      window.location.href = /*[[@{/login}]]*/ '/login';
+        // Redirect to login page
+        window.location.href = "/login";
     }
 </script>
 </body>
