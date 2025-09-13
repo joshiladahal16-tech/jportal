@@ -15,19 +15,28 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
     @Transactional
     public User registerNewUser(UserDTO dto) {
+        // Check if email already exists
         if (userRepo.findByEmail(dto.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
 
+        // Validate password confirmation if confirmPassword is provided
+        if (dto.getConfirmPassword() != null && !dto.getPassword().equals(dto.getConfirmPassword())) {
+            throw new RuntimeException("Passwords do not match");
+        }
+
+        // Create new user
         User user = new User();
         user.setEmail(dto.getEmail());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -36,7 +45,18 @@ public class UserServiceImpl implements UserService {
         Role role = dto.getRole() == null ? Role.JOBSEEKER : dto.getRole();
         user.setRole(role);
 
-        return userRepo.save(user);
+        // Save user to database
+        User savedUser = userRepo.save(user);
+
+        // Send welcome email
+        try {
+            emailService.sendWelcomeEmail(savedUser);
+        } catch (Exception e) {
+            // Log error but don't fail registration
+            System.err.println("Failed to send welcome email: " + e.getMessage());
+        }
+
+        return savedUser;
     }
 
     @Override

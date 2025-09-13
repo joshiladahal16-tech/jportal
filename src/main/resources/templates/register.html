@@ -49,35 +49,7 @@
                 <span th:text="${error}">Registration failed. Please try again.</span>
             </div>
 
-            <form th:action="@{/register}" method="post" th:object="${userRegistrationDto}" id="registerForm">
-                <div class="row">
-                    <div class="field">
-                        <label for="firstName">First name</label>
-                        <input
-                                type="text"
-                                id="firstName"
-                                name="firstName"
-                                th:field="*{firstName}"
-                                placeholder="First Name"
-                                required
-                                th:classappend="${#fields.hasErrors('firstName')} ? 'error' : ''"
-                        />
-                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="field-error"></span>
-                    </div>
-                    <div class="field">
-                        <label for="lastName">Last name</label>
-                        <input
-                                type="text"
-                                id="lastName"
-                                name="lastName"
-                                th:field="*{lastName}"
-                                placeholder="Last Name"
-                                required
-                                th:classappend="${#fields.hasErrors('lastName')} ? 'error' : ''"
-                        />
-                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="field-error"></span>
-                    </div>
-                </div>
+            <form th:action="@{/register}" method="post" th:object="${userDTO}" id="registerForm">
                 <div class="row">
                     <div class="field">
                         <label for="email">Email</label>
@@ -93,55 +65,6 @@
                         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="field-error"></span>
                     </div>
                     <div class="field">
-                        <label for="phone">Phone</label>
-                        <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                th:field="*{phone}"
-                                placeholder="+977 9866445555"
-                                th:classappend="${#fields.hasErrors('phone')} ? 'error' : ''"
-                        />
-                        <span th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="field-error"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="field">
-                        <label for="qualification">Highest qualification</label>
-                        <select
-                                id="qualification"
-                                name="qualification"
-                                th:field="*{qualification}"
-                                th:classappend="${#fields.hasErrors('qualification')} ? 'error' : ''"
-                        >
-                            <option value="">-- Select Qualification --</option>
-                            <option value="HIGH_SCHOOL">High School</option>
-                            <option value="DIPLOMA">Diploma</option>
-                            <option value="GRADUATE">Graduate</option>
-                            <option value="POSTGRADUATE">Postgraduate</option>
-                            <option value="DOCTORATE">Doctorate</option>
-                        </select>
-                        <span th:if="${#fields.hasErrors('qualification')}" th:errors="*{qualification}" class="field-error"></span>
-                    </div>
-                    <div class="field">
-                        <label for="experience">Experience</label>
-                        <select
-                                id="experience"
-                                name="experience"
-                                th:field="*{experience}"
-                                th:classappend="${#fields.hasErrors('experience')} ? 'error' : ''"
-                        >
-                            <option value="">-- Select Experience --</option>
-                            <option value="FRESHER">Fresher</option>
-                            <option value="ONE_TO_THREE">1-3 years</option>
-                            <option value="THREE_TO_SIX">3-6 years</option>
-                            <option value="SIX_PLUS">6+ years</option>
-                        </select>
-                        <span th:if="${#fields.hasErrors('experience')}" th:errors="*{experience}" class="field-error"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="field" style="grid-column: 1/-1">
                         <label for="role">Register as</label>
                         <select
                                 id="role"
@@ -151,23 +74,10 @@
                                 th:classappend="${#fields.hasErrors('role')} ? 'error' : ''"
                         >
                             <option value="">-- Select Role --</option>
-                            <option value="USER">Job Seeker</option>
+                            <option value="JOBSEEKER">Job Seeker</option>
                             <option value="EMPLOYER">Employer</option>
                         </select>
                         <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="field-error"></span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="field" style="grid-column: 1/-1">
-                        <label for="bio">Short bio</label>
-                        <textarea
-                                id="bio"
-                                name="bio"
-                                th:field="*{bio}"
-                                placeholder="Summarize your experience and interests"
-                                th:classappend="${#fields.hasErrors('bio')} ? 'error' : ''"
-                        ></textarea>
-                        <span th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}" class="field-error"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -198,24 +108,6 @@
                         />
                         <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="field-error"></span>
                     </div>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="field" style="margin-top: 0.5rem;">
-                    <label style="display: flex; align-items: flex-start; font-weight: normal; cursor: pointer;">
-                        <input
-                                type="checkbox"
-                                name="agreeToTerms"
-                                th:field="*{agreeToTerms}"
-                                required
-                                style="margin-right: 0.5rem; margin-top: 0.2rem;"
-                        />
-                        <span style="font-size: 14px;">
-                  I agree to the <a th:href="@{/terms}" target="_blank" style="color: #6366f1;">Terms of Service</a>
-                  and <a th:href="@{/privacy}" target="_blank" style="color: #6366f1;">Privacy Policy</a>
-                </span>
-                    </label>
-                    <span th:if="${#fields.hasErrors('agreeToTerms')}" th:errors="*{agreeToTerms}" class="field-error"></span>
                 </div>
 
                 <div class="form-actions" style="margin-top: 0.6rem">
